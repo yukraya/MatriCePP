@@ -5,16 +5,16 @@ EXEC=exec.bin
 
 FILES=main.cpp Matrix.cpp
 
-all: clear compil run
+all: compil run
 
 compil:
-	$(CC) -std=c++$(CPPVERSION) $(FLAGS) $(FILES) -o binaries/release/$(EXEC)
-
+	$(CC) -std=c++$(CPPVERSION) $(FLAGS) -O2 $(FILES) -o $(EXEC)
+	
 debug:
-	$(CC) -g -std=c++$(CPPVERSION) $(FILES) -o binaries/release/$(EXEC)
+	$(CC) -g -std=c++$(CPPVERSION) $(FLAGS) $(FILES) -o $(EXEC)
 
 run:
-	./binaries/release/$(EXEC)
+	./$(EXEC)
 
 clean:
-	rm -rf ./binaries/release/$(EXEC)
+	rm -rf ./$(EXEC)
