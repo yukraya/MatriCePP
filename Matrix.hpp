@@ -1,8 +1,10 @@
-#ifndef MATRICE_HPP
-#define MATRICE_HPP
+#ifndef MATRIX_HPP
+#define MATRIX_HPP
+
+#include <iostream> //!DEBUG
 
 #include <vector>
-#include <iostream>
+
 
 class Matrix
 {
@@ -29,6 +31,7 @@ class Matrix
         friend Matrix operator-(Matrix lhs, Matrix const &rhs); //*COMPLETE
         friend Matrix operator*(Matrix const &lhs, Matrix const &rhs); //*COMPLETE
         friend Matrix operator*(Matrix matrix, int multiplicateur); //*COMPLETE
+        friend Matrix operator*(int multiplicateur, Matrix matrix); //*COMPLETE
         friend Matrix operator/(Matrix lhs, Matrix const &rhs); //TODO~
 
         //*Comparison operators
@@ -36,9 +39,12 @@ class Matrix
 
         //*Services
         void drawMatrix() const noexcept; //!DEBUG SERVICE
+        int getLines() const noexcept; //*COMPLETE
+        int getColumns() const noexcept; //*COMPLETE
 
         //*Functions
-        friend Matrix powMatrix(Matrix const &matrix, int pow); //TODO
+        friend Matrix powMatrix(Matrix const &matrix, int pow); //*COMPLETE
+        friend Matrix transposition(Matrix const &matrix); //*COMPLETE
 
     private:
         //*Internal Functions
@@ -50,4 +56,4 @@ class Matrix
 };
 
 
-#endif //MATRICE_HPP
+#endif //MATRIX_HPP
