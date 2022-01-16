@@ -132,6 +132,15 @@ Matrix operator*(Matrix matrix, int multiplicateur) //Friendly Function
 }
 
 
+Matrix operator*(int multiplicateur, Matrix matrix) //Friendly Function
+{
+    for(int &element : matrix.m_matrix)
+    {
+        element *= multiplicateur;
+    }
+    return matrix;
+}
+
 
 
 //*Comparison operators
@@ -165,8 +174,39 @@ void Matrix::drawMatrix() const noexcept //!DEBUG FUNCTION
     }
 }
 
+int Matrix::getLines() const noexcept
+{
+    return m_lines;
+}
 
+int Matrix::getColumns() const noexcept
+{
+    return m_columns;
+}
 
 
 //*Functions
-//TODO: -powMatrix()
+Matrix transposition(Matrix const &matrix)
+{
+    Matrix copie{matrix.m_columns, matrix.m_lines};
+    for(int i = 1 ; i < (matrix.m_columns + 1) ; i++)
+    {
+        for(int j = 1 ; j < (matrix.m_lines + 1) ; j++)
+        {
+            copie(i, j) = matrix(j, i);
+        }
+    }
+
+    return copie;
+}
+
+Matrix powMatrix(Matrix const &matrix, int pow)
+{
+    assert(pow > 0 && "A matrix cannot be null");
+    Matrix resultat {matrix};
+    for(int i = 1 ; i < pow ; i++)
+    {
+        resultat = resultat * matrix;
+    }
+    return resultat;
+}
