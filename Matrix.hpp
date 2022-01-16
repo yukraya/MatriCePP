@@ -50,6 +50,7 @@ class Matrix
         //*Internal Functions
         std::size_t dir(int x, int y) const noexcept; //*COMPLETE
 
+        //*Attributes
         int m_lines;
         int m_columns;
         std::vector<int> m_matrix;
