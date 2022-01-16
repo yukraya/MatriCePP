@@ -7,14 +7,14 @@ FILES=main.cpp Matrix.cpp
 
 all: clear compil run
 
-compil: clear
-	$(CC) -std=c++$(CPPVERSION) $(FLAGS) -O2 $(FILES) -o binaries/release/$(EXEC)
+compil:
+	$(CC) -std=c++$(CPPVERSION) $(FLAGS) $(FILES) -o binaries/release/$(EXEC)
 
-run: clear
+debug:
+	$(CC) -g -std=c++$(CPPVERSION) $(FILES) -o binaries/release/$(EXEC)
+
+run:
 	./binaries/release/$(EXEC)
 
-clean: clear
+clean:
 	rm -rf ./binaries/release/$(EXEC)
-
-clear: clear
-	clear
