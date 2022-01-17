@@ -4,7 +4,7 @@
 #include <iostream> //!DEBUG
 
 #include <vector>
-
+#include <ostream>
 
 class Matrix
 {
@@ -21,17 +21,19 @@ class Matrix
         int& operator()(std::size_t const x, std::size_t const y); //*COMPLETE
         int const & operator()(std::size_t x, std::size_t y) const; //*COMPLETE
         
+        friend std::ostream& operator<<(std::ostream &stream, Matrix const &matrix); //*COMPLETE
 
         Matrix& operator+=(Matrix const &matrix); //*COMPLETE
         Matrix& operator-=(Matrix const &matrix); //*COMPLETE
         Matrix& operator*=(Matrix const &matrix); //*COMPLETE
         Matrix& operator/=(Matrix const &matrix); //TODO~
 
+        //*Free integrated asignment operators
         friend Matrix operator+(Matrix lhs, Matrix const &rhs); //*COMPLETE
         friend Matrix operator-(Matrix lhs, Matrix const &rhs); //*COMPLETE
         friend Matrix operator*(Matrix const &lhs, Matrix const &rhs); //*COMPLETE
-        friend Matrix operator*(Matrix matrix, int multiplicateur); //*COMPLETE
-        friend Matrix operator*(int multiplicateur, Matrix matrix); //*COMPLETE
+        friend Matrix operator*(Matrix matrix, int multiplier); //*COMPLETE
+        friend Matrix operator*(int multiplier, Matrix matrix); //*COMPLETE
         friend Matrix operator/(Matrix lhs, Matrix const &rhs); //TODO~
 
         //*Comparison operators
@@ -50,11 +52,9 @@ class Matrix
         //*Internal Functions
         std::size_t dir(int x, int y) const noexcept; //*COMPLETE
 
-        //*Attributes
         int m_lines;
         int m_columns;
         std::vector<int> m_matrix;
 };
-
 
 #endif //MATRIX_HPP
