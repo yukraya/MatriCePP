@@ -9,9 +9,6 @@ all: compil run
 
 compil:
 	$(CC) -std=c++$(CPPVERSION) $(FLAGS) -O2 $(FILES) -o $(EXEC)
-	
-debug:
-	$(CC) -g -std=c++$(CPPVERSION) $(FLAGS) $(FILES) -o $(EXEC)
 
 run:
 	./$(EXEC)
