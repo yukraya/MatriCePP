@@ -4,7 +4,7 @@
 
 #include <cassert>
 #include <vector>
-
+#include <ostream>
 
 //*Constructors
 Matrix::Matrix(int lines, int columns, int assign)
@@ -13,15 +13,12 @@ Matrix::Matrix(int lines, int columns, int assign)
     assert(m_lines > 0 && m_columns > 0 && "Matrix dimensions cannot be negative or null");
 }
 
-
 Matrix::Matrix(Matrix const &matrix)
 {
     m_lines = matrix.m_lines;
     m_columns = matrix.m_columns;
     m_matrix.assign(matrix.m_matrix.begin(), matrix.m_matrix.end());
 }
-
-
 
 
 //*Copy assignmement operator
@@ -34,8 +31,6 @@ Matrix& Matrix::operator=(Matrix const &matrix)
 }
 
 
-
-
 //*Internal functions
 std::size_t Matrix::dir(int const x, int const y) const noexcept
 {
@@ -45,18 +40,30 @@ std::size_t Matrix::dir(int const x, int const y) const noexcept
 }
 
 
-
-
 //*Integrated assignment operators
 int& Matrix::operator()(std::size_t x, std::size_t y)
 {
     return m_matrix[dir(x, y)];
 }
 
-
 int const & Matrix::operator()(std::size_t x, std::size_t y) const
 {
     return m_matrix[dir(x, y)];
+}
+
+
+std::ostream& operator<<(std::ostream &stream, Matrix const &matrix) //Friendly Function
+{
+    for(int i = 0 ; i < matrix.m_lines ; i++)
+    {
+        stream << "|";
+        for(int j = 0 ; j < matrix.m_columns ; j++)
+        {
+            stream << matrix.m_matrix[i * matrix.m_columns+ j] << "|";
+        }
+        stream << "\n";
+    }
+    return stream;
 }
 
 
@@ -70,13 +77,11 @@ Matrix& Matrix::operator+=(Matrix const &matrix)
     return *this;
 }
 
-
 Matrix operator+(Matrix lhs, Matrix const & rhs) //Friendly Function
 {
     lhs += rhs;
     return lhs;
 }
-
 
 Matrix& Matrix::operator-=(Matrix const &matrix)
 {
@@ -88,59 +93,53 @@ Matrix& Matrix::operator-=(Matrix const &matrix)
     return *this;
 }
 
-
 Matrix operator-(Matrix lhs, Matrix const &rhs) //Friendly Fonction
 {
     lhs -= rhs;
     return lhs;
 }
 
-
 Matrix operator*(Matrix const &lhs, Matrix const &rhs) //Friendly Function
 {
     assert(lhs.m_columns == rhs.m_lines && "Error dimensions");
-    Matrix copie{lhs.m_lines, rhs.m_columns, 0};
-    for(int i = 1 ; i < (copie.m_lines + 1) ; i++)
+    Matrix copy{lhs.m_lines, rhs.m_columns, 0};
+    for(int i = 1 ; i < (copy.m_lines + 1) ; i++)
     {
-        for(int j = 1 ; j < (copie.m_columns + 1) ; j++)
+        for(int j = 1 ; j < (copy.m_columns + 1) ; j++)
         {
             for(int l = 1 ; l < (lhs.m_columns + 1) ; l++)
             {
-                copie(i, j) = copie(i, j) + lhs(i, l) * rhs(l, j);
+                copy(i, j) = copy(i, j) + lhs(i, l) * rhs(l, j);
             }
         }
     }
-    return copie;
+    return copy;
 }
-
 
 Matrix& Matrix::operator*=(Matrix const &matrix)
 {
-    Matrix copie {matrix * (*this)};
-    std::swap(*this, copie);
+    Matrix copy {matrix * (*this)};
+    std::swap(*this, copy);
     return *this; 
 }
 
-
-Matrix operator*(Matrix matrix, int multiplicateur) //Friendly Function
+Matrix operator*(Matrix matrix, int multiplier) //Friendly Function
 {
     for(int &element : matrix.m_matrix)
     {
-        element *= multiplicateur;
+        element *= multiplier;
     }
     return matrix;
 }
 
-
-Matrix operator*(int multiplicateur, Matrix matrix) //Friendly Function
+Matrix operator*(int multiplier, Matrix matrix) //Friendly Function
 {
     for(int &element : matrix.m_matrix)
     {
-        element *= multiplicateur;
+        element *= multiplier;
     }
     return matrix;
 }
-
 
 
 //*Comparison operators
@@ -166,9 +165,10 @@ void Matrix::drawMatrix() const noexcept //!DEBUG FUNCTION
 {
     for(int i = 0 ; i < m_lines ; i++)
     {
+        std::cout << "|";
         for(int j = 0 ; j < m_columns ; j++)
         {
-            std::cout << m_matrix[i * m_columns+ j] << " ";
+            std::cout << m_matrix[i * m_columns+ j] << "|";
         }
         std::cout << std::endl;
     }
@@ -188,16 +188,16 @@ int Matrix::getColumns() const noexcept
 //*Functions
 Matrix transposition(Matrix const &matrix)
 {
-    Matrix copie{matrix.m_columns, matrix.m_lines};
+    Matrix copy{matrix.m_columns, matrix.m_lines};
     for(int i = 1 ; i < (matrix.m_columns + 1) ; i++)
     {
         for(int j = 1 ; j < (matrix.m_lines + 1) ; j++)
         {
-            copie(i, j) = matrix(j, i);
+            copy(i, j) = matrix(j, i);
         }
     }
 
-    return copie;
+    return copy;
 }
 
 Matrix powMatrix(Matrix const &matrix, int pow)
